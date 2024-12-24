@@ -1,0 +1,20 @@
+---
+const { id } = Astro.props;
+---
+
+<section id={id} class="mt-20">
+    <h1 class="font-bold">name</h1>
+    <hr>
+    <p class="mt-5 mb-3">subtitle</p>
+</section>
+
+<style>
+    hr {
+    	margin: 0;
+    	border: none;
+    	width: 400px;
+    	height: 1px;
+    	opacity: 0.5;
+    	background: linear-gradient( to right, red 20%, yellow 20%, yellow 36%, green 36%, green 60%, blue 60%, blue 100% );
+    }
+</style>

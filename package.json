@@ -17,6 +17,7 @@
     "particles.js": "^2.0.0",
     "svelte": "^4.2.14",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "xp.css": "^0.2.6"
   }
 }
