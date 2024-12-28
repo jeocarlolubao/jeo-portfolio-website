@@ -1,0 +1,25 @@
+/* filepath: /d:/CODING/portfolio/src/styles/global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Helvetica';
+  src: url('../portfolio/fonts/helvetica/Helvetica.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica Bold';
+  src: url('../portfolio/fonts/helvetica/Helvetica-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: bold;
+}
+
+@font-face {
+  font-family: 'Helvetica Light';
+  src: url('../portfolio/fonts/helvetica/helvetica-light.ttf') format('truetype');
+  font-weight: light;
+  font-style: light;
+}

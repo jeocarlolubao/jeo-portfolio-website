@@ -8,4 +8,5 @@ export default defineConfig({
   integrations: [svelte(), tailwind()],
   site: 'https://jeoooo.github.io',
   base: 'portfolio',
+  output: 'static',
 });

@@ -1,217 +1,147 @@
 <script>
-  import data from "../../jeocarlolubao.json";
+  import { profileData } from "./../../data/intro.ts";
 </script>
 
 <div
-  class="h-full w-fill pt-10 d-[100px] lg:mx-[300px] bg-zinc-800 m-3 flex justify-center items-center mt-16 pb-10"
+  class="bg-white text-black font-helvetica min-h-screen flex flex-col md:flex-row items-center p-16"
 >
-  <div class="flex flex-col items-center">
-    <p class=" text-xl lg:text-5xl text-white syne-800 font-extrabold">
-      Jeo Carlo Lubao
-    </p>
-    <p class="text-xs lg:text-xl mt-4 syne-400 font-bold text-white px-4">
-      Software Developer | Graphic Designer
-    </p>
-    {#each data.socials as social (social.name)}
-      <a href={social.link} target="_blank" rel="noopener noreferrer">
-        <div class="flex flex-col gap-4 w-[250px] lg:w-[350px] mt-5">
-          <div
-            class="text-zinc-800 border p-2 inline-flex h-12 transition ease-in-out hover:scale-110 bg-zinc-200 hover:bg-white"
-          >
-            <img
-              class="h-4 mt-0.5 mr-2 ml-2 lg:mt-1.5 lg:mr-2 lg:ml-3"
-              alt="simple-icon"
-              src="https://cdn.simpleicons.org/{social.icon_name}/333"
-            />
-            <p class=" ibm-plex-mono-light text-[12px] lg:text-lg">
-              {social.name}
-            </p>
-          </div>
-        </div>
-      </a>
-    {/each}
+  <!-- Left Section (Hero Title) -->
+  <div
+    class="flex flex-col md:w-1/2 justify-center items-start space-y-8 md:space-y-12 text-left"
+  >
+    <!-- Title Section -->
+    <div class="space-y-4">
+      <h1
+        class="text-6xl font-extrabold uppercase tracking-tight text-black leading-tight"
+      >
+        Hi! I'm Jeo
+      </h1>
+      <h3 class="text-2xl font-medium uppercase tracking-widest text-gray-800">
+        Software Developer & Graphic Designer
+      </h3>
+    </div>
+
+    <!-- Divider -->
+    <hr class="h-px w-32 bg-black border-0 mt-6" />
+
+    <!-- About Me Section -->
+    <div class="text-lg font-light leading-relaxed mt-6 max-w-lg">
+      <p>{profileData.aboutMe}</p>
+    </div>
+
+    <!-- Social Links -->
+    <div class="flex space-x-6 items-center mt-8">
+      {#each profileData.socials as social}
+        <a
+          href={social.link}
+          target="_blank"
+          class="w-12 h-12 flex items-center justify-center border border-black rounded-full hover:text-white hover:fill-white transition-all hover:border-4"
+        >
+          <img src={social.imgSrc} alt={social.name} class="w-8 h-8" />
+        </a>
+      {/each}
+    </div>
+  </div>
+
+  <!-- Right Section (Updated Visual Design) -->
+  <div class="hidden md:block md:w-1/2 mt-16 md:mt-0 space-y-12">
+    <!-- New Visual Design: Asymmetrical Grid with striking blocks -->
+    <div class="grid grid-cols-2 gap-8">
+      <!-- Block 1: Large Black Block -->
+      <div class="bg-black w-full h-48 col-span-2 relative">
+        <div class="absolute inset-0 flex items-center justify-center"></div>
+      </div>
+
+      <!-- Block 2: Vertical Split with Black and Light Gray -->
+      <div class="w-full h-32 bg-black"></div>
+      <div class="w-full h-32 bg-gray-200"></div>
+
+      <!-- Block 3: Circle and Rectangular Combo -->
+      <div class="flex w-full h-32 items-center justify-between">
+        <div class="w-32 h-32 bg-black rounded-full"></div>
+        <div class="w-1/3 h-full bg-gray-200"></div>
+      </div>
+
+      <!-- Large Horizontal Block with Message -->
+      <div class="col-span-2 bg-gray-200 w-full h-48 relative">
+        <div class="absolute inset-0 flex items-center justify-center"></div>
+      </div>
+
+      <!-- Final Block: Asymmetrical Black and Gray Combo -->
+      <div class="w-full h-32 bg-black"></div>
+      <div class="w-full h-32 bg-gray-200"></div>
+    </div>
   </div>
 </div>
 
 <style>
-  .ibm-plex-sans-thin {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 100;
-    font-style: normal;
+  /* Custom styles for Swiss design */
+  h1 {
+    font-size: 6rem;
+    letter-spacing: -0.03em;
   }
 
-  .ibm-plex-sans-extralight {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 200;
-    font-style: normal;
+  h3 {
+    font-size: 2rem;
+    letter-spacing: 0.1em;
   }
 
-  .ibm-plex-sans-light {
-    font-family: "IBM Plex Sans", sans-serif;
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  .text-left {
+    text-align: left;
+  }
+
+  .space-y-12 {
+    margin-top: 3rem;
+  }
+
+  .tracking-tight {
+    letter-spacing: -0.05em;
+  }
+
+  .tracking-widest {
+    letter-spacing: 0.1em;
+  }
+
+  .bg-gray-200 {
+    background-color: #f2f2f2;
+  }
+
+  .bg-black {
+    background-color: #000;
+  }
+
+  .font-helvetica {
+    font-family: "Helvetica", sans-serif;
+  }
+
+  /* Additional custom styles */
+  .leading-tight {
+    line-height: 1.1;
+  }
+
+  .text-lg {
+    font-size: 1.125rem;
+  }
+
+  .font-light {
     font-weight: 300;
-    font-style: normal;
   }
 
-  .ibm-plex-sans-regular {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  .ibm-plex-sans-medium {
-    font-family: "IBM Plex Sans", sans-serif;
+  .font-medium {
     font-weight: 500;
-    font-style: normal;
   }
 
-  .ibm-plex-sans-semibold {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 600;
-    font-style: normal;
-  }
-
-  .ibm-plex-sans-bold {
-    font-family: "IBM Plex Sans", sans-serif;
+  .font-bold {
     font-weight: 700;
-    font-style: normal;
-  }
-
-  .ibm-plex-sans-thin-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 100;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-extralight-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 200;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-light-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 300;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-regular-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-medium-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 500;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-semibold-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 600;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-bold-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 700;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-thin {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 100;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-extralight {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 200;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-light {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 300;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-regular {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-medium {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 500;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-semibold {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 600;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-bold {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 700;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-thin-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 100;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-extralight-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 200;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-light-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 300;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-regular-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-medium-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 500;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-semibold-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 600;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-bold-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 700;
-    font-style: italic;
-  }
-  .syne-400 {
-    font-family: "Syne", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  .syne-800 {
-    font-family: "Syne", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 800;
-    font-style: normal;
   }
 </style>

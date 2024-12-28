@@ -1,248 +1,152 @@
 <script>
-  import data from "../../jeocarlolubao.json";
+  import Experience from "./Experience.svelte";
+  import { experience } from "./../../data/experience.ts";
+
+  function calculateDuration(start, end) {
+    const startDate = new Date(start);
+    const endDate = end ? new Date(end) : new Date();
+    const years = endDate.getFullYear() - startDate.getFullYear();
+    const months = endDate.getMonth() - startDate.getMonth() + years * 12;
+    const displayYears = Math.floor(months / 12);
+    const displayMonths = months % 12;
+    let duration = "";
+    if (displayYears > 0) {
+      duration += `${displayYears} ${displayYears === 1 ? "yr" : "yrs"} `;
+    }
+    if (displayMonths > 0) {
+      duration += `${displayMonths} ${displayMonths === 1 ? "mo" : "mos"}`;
+    }
+    return duration.trim();
+  }
+
+  function sortRoles(roles) {
+    return roles
+      .slice()
+      .sort((a, b) => new Date(b.durationStart) - new Date(a.durationStart));
+  }
 </script>
 
-<div
-  class=" h-fill w-fill mx-[24px] md:md-[100px] lg:mx-[300px] bg-zinc-800 m-3 justify-center items-center pb-[4px]"
->
-  <h1 class="px-[24px] pt-8 pb-4 text-4xl text-white syne-600 font-bold">
-    <i class="fa-solid fa-user mr-3" /> Experience
-  </h1>
-  <ol class="my-[32px] mx-[64px] flex flex-col w-fill border-s">
-    {#each data.experience as exp}
-      <li class="mb-4 ms-4">
-        <div
-          class="absolute w-3 h-3 bg-gray-200 rounded-full mt-3.5 start-[82.5px] sm:start-[358px] md:start-[82.5px] lg:start-[358px] border border-white"
-        ></div>
-        <h3 class="mb-1 text-3xl text-white ibm-plex-sans-bold">
-          {exp.title}
-        </h3>
-        {#if exp.company}
-          <h3
-            class="my-2 text-lg font-semibold text-white ibm-plex-sans-semibold"
-          >
-            {exp.company}
-          </h3>
-        {/if}
-
-        <h3
-          class="my-3 text-sm font-normal leading-none text-gray-400 ibm-plex-sans-light"
-        >
-          {exp.duration}
-        </h3>
-        {#if exp.responsibilities}
-          {#each exp.responsibilities.roleDescription as role (role)}
-            <p class="ibm-plex-sans-regular text-justify text-gray-50 my-2">
-              {role}
-            </p>
-          {/each}
-
-          {#if exp.responsibilities.featuredEvents}
-            <p
-              class="font-ibm-plex-sans font-semibold text-justify text-gray-50 my-2"
+<div class="bg-white text-black font-helvetica px-6 py-12">
+  <div class=" mx-auto text-left">
+    <h3 class="text-5xl md:text-9xl font-helvetica-bold uppercase mb-8">
+      Experience
+    </h3>
+    {#each experience.experience as exp, index}
+      <div
+        class="experience-item border-b border-black py-8 opacity-0 transition-opacity duration-1000 ease-in-out transform translate-y-12 animate-fade-up"
+        style="animation-delay: {index * 200}ms"
+      >
+        {#if exp.roles.length === 1}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <!-- Left Side: Title, Company, Duration -->
+            <div class="flex flex-col text-left">
+              <p class="text-3xl font-bold leading-tight mb-2 uppercase">
+                {exp.roles[0].title}
+              </p>
+              <p class="text-lg mb-1 uppercase">{exp.company}</p>
+              <p class="text-sm mb-1">
+                {exp.roles[0].durationStart} - {exp.roles[0].durationEnd
+                  ? exp.roles[0].durationEnd
+                  : "Present"}
+              </p>
+              <p class="text-sm text-gray-600">
+                ({calculateDuration(
+                  exp.roles[0].durationStart,
+                  exp.roles[0].durationEnd,
+                )})
+              </p>
+            </div>
+            <!-- Right Side: Description -->
+            <div class="text-left">
+              {#if exp.roles[0].responsibilities && exp.roles[0].responsibilities.roleDescription}
+                <ul class="list-disc pl-6 text-sm mt-2">
+                  {#each exp.roles[0].responsibilities.roleDescription as description}
+                    <li>{description}</li>
+                  {/each}
+                </ul>
+              {/if}
+              {#if exp.roles[0].responsibilities && exp.roles[0].responsibilities.featuredEvents}
+                <p class="font-bold mt-4">Featured Events:</p>
+                <ul class="list-disc pl-6 text-sm">
+                  {#each exp.roles[0].responsibilities.featuredEvents as event}
+                    <li>{event}</li>
+                  {/each}
+                </ul>
+              {/if}
+            </div>
+          </div>
+        {:else}
+          <p class="text-3xl font-bold mt-8 uppercase">{exp.company}</p>
+          {#each sortRoles(exp.roles) as role}
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-6 opacity-0 transition-opacity duration-1000 ease-in-out transform translate-x-12 animate-slide-up"
             >
-              Notable Events
-            </p>
-            {#each exp.responsibilities.featuredEvents as event (event)}
-              <ul
-                class="ml-10 font-ibm-plex-sans list-disc text-base font-normal text-justify text-gray-50 my-1"
-              >
-                <li>{event}</li>
-              </ul>
-            {/each}
-          {/if}
+              <!-- Left Side: Title, Duration -->
+              <div class="flex flex-col">
+                <p class="text-lg font-medium uppercase">{role.title}</p>
+                <p class="text-sm text-gray-600">
+                  {role.durationStart} - {role.durationEnd
+                    ? role.durationEnd
+                    : "Present"}
+                </p>
+                <p class="text-sm text-gray-500">
+                  ({calculateDuration(role.durationStart, role.durationEnd)} )
+                </p>
+              </div>
+              <!-- Right Side: Description -->
+              <div class="text-left">
+                {#if role.responsibilities && role.responsibilities.roleDescription}
+                  <ul class="list-disc pl-6 text-sm mt-2">
+                    {#each role.responsibilities.roleDescription as description}
+                      <li>{description}</li>
+                    {/each}
+                  </ul>
+                {/if}
+                {#if role.responsibilities && role.responsibilities.featuredEvents}
+                  <p class="font-bold mt-4">Featured Events:</p>
+                  <ul class="list-disc pl-6 text-sm">
+                    {#each role.responsibilities.featuredEvents as event}
+                      <li>{event}</li>
+                    {/each}
+                  </ul>
+                {/if}
+              </div>
+            </div>
+          {/each}
         {/if}
-      </li>
+      </div>
     {/each}
-  </ol>
+  </div>
 </div>
 
 <style>
-  .ibm-plex-sans-thin {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 100;
-    font-style: normal;
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  .ibm-plex-sans-extralight {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 200;
-    font-style: normal;
+  @keyframes slide-up {
+    0% {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
-  .ibm-plex-sans-light {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 300;
-    font-style: normal;
+  .animate-fade-up {
+    animation: fade-up 1s ease-in-out forwards;
   }
 
-  .ibm-plex-sans-regular {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  .ibm-plex-sans-medium {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-  }
-
-  .ibm-plex-sans-semibold {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 600;
-    font-style: normal;
-  }
-
-  .ibm-plex-sans-bold {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-  }
-
-  .ibm-plex-sans-thin-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 100;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-extralight-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 200;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-light-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 300;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-regular-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-medium-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 500;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-semibold-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 600;
-    font-style: italic;
-  }
-
-  .ibm-plex-sans-bold-italic {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 700;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-thin {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 100;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-extralight {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 200;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-light {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 300;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-regular {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-medium {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 500;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-semibold {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 600;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-bold {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 700;
-    font-style: normal;
-  }
-
-  .ibm-plex-mono-thin-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 100;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-extralight-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 200;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-light-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 300;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-regular-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-medium-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 500;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-semibold-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 600;
-    font-style: italic;
-  }
-
-  .ibm-plex-mono-bold-italic {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 700;
-    font-style: italic;
-  }
-  .syne-400 {
-    font-family: "Syne", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  .syne-600 {
-    font-family: "Syne", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 600;
-    font-style: normal;
-  }
-
-  .syne-800 {
-    font-family: "Syne", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 800;
-    font-style: normal;
+  .animate-slide-up {
+    animation: slide-up 1s ease-in-out forwards;
   }
 </style>
